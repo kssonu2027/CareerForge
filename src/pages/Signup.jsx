@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import bgImage from "../assets/SignupComp.webp";
+import bgImage from "../assets/SignUpComp.webp";
 
 function Signup() {
   const [form, setForm] = useState({
