@@ -1,5 +1,5 @@
 import express from "express";
-import { getJobs } from "../CareerForge/controllers/jobController.js";
+import { getJobs } from "../controllers/jobController.js"; 
 
 const router = express.Router();
 

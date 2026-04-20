@@ -1,4 +1,4 @@
-import Job from "../CareerForge/models/jobModel.js";
+import Job from "../models/jobModel.js";
 import axios from "axios";
 
 const runScraper = async () => {
