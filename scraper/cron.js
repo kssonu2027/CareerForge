@@ -1,11 +1,23 @@
-import cron from "node-cron";
-import runScraper from "./indeedScraper.js"; // adjust path if needed
+const cron = require("node-cron");
+
+const runRemotive = require("./remotiveScraper");
+const runIndeed = require("./indeedScraper");
 
 const startCron = () => {
-  cron.schedule("*/10 * * * *", async () => {
-    console.log("Running scheduled scraper...");
-    await runScraper();
+  console.log("🟢 Cron started...");
+
+  cron.schedule("* * * * *", async () => {
+    console.log("⏰ Running ALL scrapers...");
+
+    try {
+      await runRemotive();
+      await runIndeed();
+
+      console.log("✅ All scrapers finished");
+    } catch (err) {
+      console.error("❌ Cron error:", err.message);
+    }
   });
 };
 
-export default startCron;
+module.exports = startCron;

@@ -1,37 +1,40 @@
-import express from "express";
-import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import jobRoutes from "./routes/jobRoutes.js";
-import runScraper from "./scraper/indeedScraper.js";
-import startCron from "./scraper/cron.js";
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db");
 
-dotenv.config();
+// Routes
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const jobRoutes = require("./routes/jobRoutes");
+
+// Cron
+const startCron = require("./scraper/cron");
+
+// DB
+connectDB();
 
 const app = express();
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-const start = async () => {
-  try {
-    console.log("calling scraper manually");
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/jobs", jobRoutes);
 
-    await connectDB();
+// Health
+app.get("/", (req, res) => {
+  res.json({ success: true, message: "API running 🚀" });
+});
 
-    console.log("mongodb connected");
+// Start cron
+startCron();
 
-    console.log("running scraper");
-    await runScraper();
-
-    startCron(); // keep ONLY cron OR manual run (not both repeatedly)
-
-    app.use("/jobs", jobRoutes);
-
-    app.listen(5000, () => {
-      console.log("server running on port 5000");
-    });
-
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-start();
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
