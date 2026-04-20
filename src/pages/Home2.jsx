@@ -1,6 +1,5 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import SearchBar from "../components/SearchBar";
 import bgImage from "../assets/Job_Hunt.webp";
 
 function Home2() {

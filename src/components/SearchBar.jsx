@@ -1,45 +1,36 @@
-import { useState } from "react";
+import { Search, MapPin } from "lucide-react";
 
-function SearchBar({ onSearch }) {
-  const [keyword, setKeyword] = useState("");
-  const [location, setLocation] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (onSearch) {
-      onSearch({ keyword, location });
-    }
-  };
-
+function SearchBar() {
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex gap-3 bg-white p-3 rounded shadow"
-    >
-      <input
-        type="text"
-        placeholder="Keyword or Job Title"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        className="border p-2 rounded w-full"
-      />
+    <div className="w-8xl h-17 mx-8 bg-white rounded-full shadow-lg flex items-center px-4 py-2">
+      {/* Job Search */}
+      <div className="flex items-center flex-1 gap-2 px-3">
+        <Search className="text-gray-400" size={18} />
+        <input
+          type="text"
+          placeholder="Job title or keyword"
+          className="w-full outline-none text-sm"
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="Location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        className="border p-2 rounded"
-      />
+      {/* Divider */}
+      <div className="h-6 w-px bg-gray-300"></div>
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
+      {/* Location */}
+      <div className="flex items-center flex-1 gap-2 px-3">
+        <MapPin className="text-gray-400" size={18} />
+        <input
+          type="text"
+          placeholder="Add country or city"
+          className="w-full outline-none text-sm"
+        />
+      </div>
+
+      {/* Button */}
+      <button className="ml-3 bg-[#6978bb] hover:bg-[#323464] text-white text-md px-9 py-4 rounded-full transition">
         Search
       </button>
-    </form>
+    </div>
   );
 }
 
