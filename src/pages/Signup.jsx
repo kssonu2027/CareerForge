@@ -28,7 +28,8 @@ function Signup() {
       const res = await axios.post(`${API}/api/auth/signup`, form);
 
       // ✅ store user
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       alert("Signup Successful!");
       navigate("/dashboard"); // ✅ redirect

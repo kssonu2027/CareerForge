@@ -25,7 +25,8 @@ function Login() {
       });
 
       // ✅ store user + token
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
       alert("Login Successful!");
       navigate("/dashboard"); // ✅ redirect
@@ -86,7 +87,7 @@ function Login() {
         <div className="flex items-center gap-2 ml-40 mt-8">
           <span className="text-white text-md">Don't have an account?</span>
           <Link
-            to="/Signup"
+            to="/signup"
             className="text-white text-md font-bold hover:underline"
           >
             Sign up
