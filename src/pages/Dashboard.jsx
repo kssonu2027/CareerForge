@@ -4,6 +4,14 @@ import Filters from "../components/Filters";
 import JobCard from "../components/JobCard";
 import SearchBar from "../components/SearchBar";
 
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    window.location.href = "/login";
+  }
+}, []);
+
 function Dashboard() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);

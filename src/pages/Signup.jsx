@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import bgImage from "../assets/LoginComp.webp";
+import bgImage from "../assets/SignUpComp.webp";
 
 function Signup() {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
@@ -12,29 +12,29 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  // ✅ FIXED: use "name" instead of "type"
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value, // ✅ important
+    });
   };
 
-  const handleSignup = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/signup`,
-        formData,
-      );
+      const API = import.meta.env.VITE_API_URL;
 
-      // ✅ store user properly
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const res = await axios.post(`${API}/api/auth/signup`, form);
 
-      alert("Account Created!");
+      // ✅ store user
+      localStorage.setItem("user", JSON.stringify(res.data));
 
-      // ✅ redirect to dashboard
-      navigate("/dashboard");
+      alert("Signup Successful!");
+      navigate("/dashboard"); // ✅ redirect
     } catch (err) {
       alert(err.response?.data?.message || "Signup failed.");
+      console.error(err);
     }
   };
 
@@ -47,49 +47,49 @@ function Signup() {
       <div className="w-1/2 flex flex-col justify-center px-16 ml-10">
         <h2 className="text-4xl font-bold text-white mb-3">SIGN UP</h2>
         <p className="text-white text-lg mb-8">
-          Create your CareerForge account
+          Create your account to get started
         </p>
 
-        <form onSubmit={handleSignup}>
-          {/* ✅ ADDED name field (required for backend) */}
+        <form onSubmit={handleSubmit}>
           <input
-            type="text"
             name="name"
             placeholder="Full Name"
-            required
             onChange={handleChange}
-            className="bg-transparent border-b border-[#e3bfb2] text-white placeholder-white/70 p-2 w-full mb-6 outline-none"
+            className="bg-transparent border-b border-white text-white placeholder-white/70 p-2 w-full mb-6 outline-none"
           />
 
           <input
-            type="email"
             name="email"
+            type="email"
             placeholder="Email"
-            required
             onChange={handleChange}
-            className="bg-transparent border-b border-[#e3bfb2] text-white placeholder-white/70 p-2 w-full mb-6 outline-none"
+            className="bg-transparent border-b border-white text-white placeholder-white/70 p-2 w-full mb-6 outline-none"
           />
 
           <input
-            type="password"
             name="password"
+            type="password"
             placeholder="Password"
-            required
             onChange={handleChange}
-            className="bg-transparent border-b border-[#e3bfb2] text-white placeholder-white/70 p-2 w-full mb-6 outline-none"
+            className="bg-transparent border-b border-white text-white placeholder-white/70 p-2 w-full mb-8 outline-none"
           />
 
-          <button
-            type="submit"
-            className="bg-[#6978bb] w-full mt-12 hover:bg-[#323464] text-white py-3 rounded-full text-xl font-medium transition-colors"
-          >
-            Create Account
-          </button>
+          <div className="mt-3">
+            <button
+              type="submit"
+              className="bg-[#6978bb] hover:bg-[#323464] text-white ml-56 px-8 py-3 rounded-full text-xl font-medium transition-colors"
+            >
+              Sign Up
+            </button>
+          </div>
         </form>
 
-        <div className="flex items-center justify-center gap-2 mt-8">
-          <span className="text-white">Already have an account?</span>
-          <Link to="/Login" className="text-white font-bold hover:underline">
+        <div className="flex items-center gap-2 ml-45 mt-8">
+          <span className="text-white text-md">Already have an account?</span>
+          <Link
+            to="/login"
+            className="text-white text-md font-bold hover:underline"
+          >
             Login
           </Link>
         </div>
